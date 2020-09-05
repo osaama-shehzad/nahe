@@ -74,12 +74,19 @@ WSGI_APPLICATION = 'nfdp.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
+import dj_database_url
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql'
+        # 'NAME': BASE_DIR / 'db.sqlite3',
+        
     }
 }
+
+
+DATABASES['default'] = dj_database_url.config(default='postgres://pgbmrlvtwstejt:a4ed5d7da8722c97c6075015ca94c9af51b0f41744235ad8158e4d2aa814e437@ec2-54-91-178-234.compute-1.amazonaws.com:5432/d340vq3runca9n',
+conn_max_age=None)
+
 
 
 # Password validation
