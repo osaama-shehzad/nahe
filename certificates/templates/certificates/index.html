@@ -1,0 +1,23 @@
+{% extends "certificates/layout.html" %}
+
+{% block title %}
+    Verify Certificates
+{% endblock %}
+
+{% block body %}
+
+    <div class="alert alert-info" role="alert" style="font-size: 17.5px">
+        Please enter the 13-digit Computerized National Identity Card (CNIC) number to 
+        verify the successful completion of the National Faculty Development Program (NFDP)
+        by the fellow. This online verification system serves as an electronic attestation by the
+        National Academy of Higher Education (NAHE). 
+      </div>
+    <div class="form-group">
+        <form action="{% url 'index' %}" method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button class="btn btn-secondary" type="submit">Submit</button>
+        </form>
+    </div>
+
+{% endblock %}
