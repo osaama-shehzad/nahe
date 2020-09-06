@@ -35,7 +35,7 @@ def index (request):
         })
     
 def success (request, fellow): 
-    name = fellow.name.capitalize()
+    name = fellow.name.title()
     program = fellow.program
     cnic = fellow.CNIC 
     cnic = fellow.CNIC[:5]+ "-" + fellow.CNIC[5:12] + "-" + fellow.CNIC [-1]
