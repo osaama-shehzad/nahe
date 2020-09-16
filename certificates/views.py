@@ -61,7 +61,7 @@ def download (request, date, name):
     path = os.path.join(BASE_DIR, "certificates/static/certificates/Certificate_0001.jpg")
     date = f"29 {x[3]} {x[4]}" 
     image = Image.open(path)
-    path = os.path.join(BASE_DIR, "certificates/static/certificates/Certificate_0001/arial.ttf'.jpg")
+    path = os.path.join(BASE_DIR, "certificates/static/certificates/arial.ttf'.jpg")
     font_type = ImageFont.truetype(path, 70)
     font_type_2 = ImageFont.truetype(path, 35)
     draw = ImageDraw.Draw(image)
