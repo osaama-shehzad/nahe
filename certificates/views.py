@@ -4,6 +4,7 @@ from django.urls import reverse
 from django import forms
 from .models import Fellow
 from PIL import Image, ImageDraw, ImageFont
+import os
 # Create your views here.
 
 class SearchForm(forms.Form):
@@ -57,6 +58,8 @@ def fail (request, cnic):
 def download (request, date, name):
     x = date.split(" ")
     date = f"29 {x[3]} {x[4]}"
+    BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    url_path = BASE_DIR + '/certificates/static/certificates'
     try: 
         image = Image.open("certificates\static\certificates\Certificate_0001.jpg")
     except:
