@@ -61,7 +61,7 @@ def download (request, date, name):
     font_type = ImageFont.truetype('arial.ttf', 70)
     font_type_2 = ImageFont.truetype('arial.ttf', 35)
     draw = ImageDraw.Draw(image)
-    draw.text(xy=(810, 740), text=name, fill=(0,102,0), font=font_type)
+    draw.text(xy=(600, 740), text=name, fill=(0,102,0), font=font_type)
     draw.text (xy=(330, 1230), text=date, fill=(0,102,0), font=font_type_2)
     image.save(f'certificates\static\certificates\{name}.pdf', "PDF", resolution=100.0)
     with open(f'certificates\static\certificates\{name}.pdf', 'rb') as pdf:

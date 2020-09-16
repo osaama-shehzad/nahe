@@ -32,8 +32,8 @@
         <ul class="nav nav-pills">
             <li class="nav-item">
                 <a class="nav-link active" href="{% url 'certificates:index' %}">Seach Again</a>
-                <a class="nav-link active" href="{% url 'certificates:download' name=name date=program %}" download>Download Certificate</a>
             </li>
+            <a style="margin-left: 50px; background-color:black;" class="nav-link active" href="{% url 'certificates:download' name=name date=program %}" download>Download Certificate</a>
         </ul>
     </div>
 {% endblock %}
