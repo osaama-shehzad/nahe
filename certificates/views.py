@@ -57,8 +57,10 @@ def fail (request, cnic):
 
 def download (request, date, name):
     x = date.split(" ")
+    path = os.path.join(BASE_DIR, "certificates/static/certificates/Certificate_0001.jpg")
+    return (HttpResponse(path))
     date = f"29 {x[3]} {x[4]}" 
-    image = Image.open("/static/certificates/Certificate_0001.jpg")
+    image = Image.open(path)
     # except:
     #     return HttpResponse ("image did not load")
     font_type = ImageFont.truetype('arial.ttf', 70)
