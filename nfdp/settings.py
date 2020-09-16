@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 SECRET_KEY = '70-=4h!m*_y+mp!w)x1&k0qqu0icb*ik-))whg12&5^615+s-c'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['nahe-osaama.isb.hec.gov.pk']
 
