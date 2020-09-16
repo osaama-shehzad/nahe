@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from django.urls import reverse
 from django import forms
 from .models import Fellow
-
+from PIL import Image, ImageDraw, ImageFont
 # Create your views here.
 
 class SearchForm(forms.Form):
@@ -52,4 +52,20 @@ def fail (request, cnic):
     return render(request, "certificates/fail.html", {
         "message": f"Record not found! No NFDP graduate holds the CNIC # {cnic}. Please try again with a different CNIC number."
     })
+
+
+def download (request, date, name):
+    x = date.split(" ")
+    date = f"29 {x[3]} {x[4]}"
+    image = Image.open("certificates\static\certificates\Certificate_0001.jpg")
+    font_type = ImageFont.truetype('arial.ttf', 70)
+    font_type_2 = ImageFont.truetype('arial.ttf', 35)
+    draw = ImageDraw.Draw(image)
+    draw.text(xy=(810, 740), text=name, fill=(0,102,0), font=font_type)
+    draw.text (xy=(330, 1230), text=date, fill=(0,102,0), font=font_type_2)
+    image.save(f'certificates\static\certificates\{name}.pdf', "PDF", resolution=100.0)
+    with open(f'certificates\static\certificates\{name}.pdf', 'rb') as pdf:
+        response = HttpResponse(pdf.read(), content_type='application/pdf')
+        response['Content-Disposition'] = f'inline;filename=NFDP-{name}.pdf'
+        return response
 
