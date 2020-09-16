@@ -7,6 +7,5 @@ class Fellow(models.Model):
     CNIC = models.CharField(max_length=13, 
         validators=[int_list_validator(sep=''),MinLengthValidator(13),])
     program = models.CharField(max_length=30)
-
     def __str__(self):
         return f"{self.name}"

@@ -58,10 +58,8 @@ def fail (request, cnic):
 def download (request, date, name):
     x = date.split(" ")
     date = f"29 {x[3]} {x[4]}"
-    # BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    # url_path = BASE_DIR + '/certificates/static/certificates'
     # try: 
-    image = Image.open("certificates\static\certificates\Certificate_0001.jpg")
+    image = Image.open("https://nahe.herokuapp.com/static/certificates/Certificate_0001.jpg")
     # except:
     #     return HttpResponse ("image did not load")
     font_type = ImageFont.truetype('arial.ttf', 70)
