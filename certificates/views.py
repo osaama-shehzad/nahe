@@ -61,14 +61,14 @@ def download (request, date, name):
     path = os.path.join(BASE_DIR, "certificates/static/certificates/Certificate_0001.jpg")
     date = f"29 {x[3]} {x[4]}" 
     image = Image.open(path)
-    font_type = ImageFont.truetype('arial.ttf', 70)
-    font_type_2 = ImageFont.truetype('arial.ttf', 35)
+    font_type = ImageFont.truetype('/app/arial.ttf', 70)
+    font_type_2 = ImageFont.truetype('/app/arial.ttf', 35)
     draw = ImageDraw.Draw(image)
     draw.text(xy=(600, 740), text=name, fill=(0,102,0), font=font_type)
     draw.text (xy=(330, 1230), text=date, fill=(0,102,0), font=font_type_2)
     path = os.path.join(BASE_DIR, f"certificates/static/certificates/{name}.pdf")
     image.save(path, "PDF", resolution=100.0)
-    with open(f'certificates\static\certificates\{name}.pdf', 'rb') as pdf:
+    with open(path, 'rb') as pdf:
         response = HttpResponse(pdf.read(), content_type='application/pdf')
         response['Content-Disposition'] = f'inline;filename=NFDP-{name}.pdf'
         return response
