@@ -58,10 +58,10 @@ def fail (request, cnic):
 def download (request, date, name):
     x = date.split(" ")
     date = f"29 {x[3]} {x[4]}"
-    # try: 
-    image = Image.open("static\certificates\Certificate_0001.jpg")
-    # except:
-    #     return HttpResponse ("image did not load")
+    try: 
+        image = Image.open("certificates\Certificate_0001.jpg")
+    except:
+        return HttpResponse ("image did not load")
     font_type = ImageFont.truetype('arial.ttf', 70)
     font_type_2 = ImageFont.truetype('arial.ttf', 35)
     draw = ImageDraw.Draw(image)
