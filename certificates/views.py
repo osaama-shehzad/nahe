@@ -61,10 +61,9 @@ def download (request, date, name):
     path = os.path.join(BASE_DIR, "certificates/static/certificates/Certificate_0001.jpg")
     date = f"29 {x[3]} {x[4]}" 
     image = Image.open(path)
-    try:
-        font_type = ImageFont.truetype('/app/arial.TTF', 70)
-    except:
-        font_type_2 = ImageFont.truetype('app/fonts/arial.ttf', 35)
+    path = os.path.join(BASE_DIR, "certificates/static/certificates/Certificate_0001/arial.ttf'.jpg")
+    font_type = ImageFont.truetype(path, 70)
+    font_type_2 = ImageFont.truetype(path, 35)
     draw = ImageDraw.Draw(image)
     draw.text(xy=(600, 740), text=name, fill=(0,102,0), font=font_type)
     draw.text (xy=(330, 1230), text=date, fill=(0,102,0), font=font_type_2)
