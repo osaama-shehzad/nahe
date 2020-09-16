@@ -54,9 +54,10 @@ def fail (request, cnic):
         "message": f"Record not found! No NFDP graduate holds the CNIC # {cnic}. Please try again with a different CNIC number."
     })
 
-
+import os
 def download (request, date, name):
     x = date.split(" ")
+    BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     path = os.path.join(BASE_DIR, "certificates/static/certificates/Certificate_0001.jpg")
     return (HttpResponse(path))
     date = f"29 {x[3]} {x[4]}" 
