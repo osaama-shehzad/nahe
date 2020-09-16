@@ -57,24 +57,23 @@ def fail (request, cnic):
 
 def download (request, date, name):
     x = date.split(" ")
-    date = f"29 {x[3]} {x[4]}"
-    try: 
-        image = Image.open("/static/certificates/Certificate_0001.jpg")
-    except:
-        return HttpResponse ("image did not load")
+    date = f"29 {x[3]} {x[4]}" 
+    image = Image.open("/static/certificates/Certificate_0001.jpg")
+    # except:
+    #     return HttpResponse ("image did not load")
     font_type = ImageFont.truetype('arial.ttf', 70)
     font_type_2 = ImageFont.truetype('arial.ttf', 35)
     draw = ImageDraw.Draw(image)
     draw.text(xy=(600, 740), text=name, fill=(0,102,0), font=font_type)
     draw.text (xy=(330, 1230), text=date, fill=(0,102,0), font=font_type_2)
-    try:
-        image.save(f'certificates\static\certificates\{name}.pdf', "PDF", resolution=100.0)
-    except:
-        return HttpResponse("pdf did not save")
-    try:
-        with open(f'certificates\static\certificates\{name}.pdf', 'rb') as pdf:
-            response = HttpResponse(pdf.read(), content_type='application/pdf')
-            response['Content-Disposition'] = f'inline;filename=NFDP-{name}.pdf'
-            return response
-    except:
-        return HttpResponse("pdf did not load")
+    # try:
+    image.save(f'certificates\static\certificates\{name}.pdf', "PDF", resolution=100.0)
+    # except:
+    #     return HttpResponse("pdf did not save")
+    # try:
+    with open(f'certificates\static\certificates\{name}.pdf', 'rb') as pdf:
+        response = HttpResponse(pdf.read(), content_type='application/pdf')
+        response['Content-Disposition'] = f'inline;filename=NFDP-{name}.pdf'
+        return response
+    # except:
+    #     return HttpResponse("pdf did not load")
