@@ -71,9 +71,10 @@ def download (request, date, name, id):
     w, h = draw.textsize(name, font=font_type)
     x = (x2 - x1 - w)/2 + x1
     y = (y2 - y1 - h)/2 + y1
+    path = os.path.join(BASE_DIR, "certificates/static/certificates/arial.ttf")
     font_type_2 = ImageFont.truetype(path, 35)  
-    draw.text((x,y), name, align='center', font=font_type, fill=(0,102,0))
-    font_type_3 = ImageFont.truetype('arial.ttf', 30)
+    draw.text((x,y), name, align='center', font=font_type, fill=(0,102,0)) 
+    font_type_3 = ImageFont.truetype(path, 30)
     msg = f"Certificate ID: {id}. To verify the authenticity of this e-certificate, email <nahe.support@hec.gov.pk>"
     draw.text (xy=(330, 1230), text=date, fill=(0,102,0), font=font_type_2)
     draw.text (xy=(209, 1410), text=msg, fill=(0,102,0), font=font_type_3)
