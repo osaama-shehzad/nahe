@@ -39,7 +39,7 @@ def success (request, fellow):
     name = fellow.name.title()
     program = fellow.program
     cnic = fellow.CNIC
-    ID = fellow.id 
+    ID = fellow.ID 
     cnic = fellow.CNIC[:5]+ "-" + fellow.CNIC[5:12] + "-" + fellow.CNIC [-1]
     if "Dr." not in name: name = "Dr. " + name
     return render(request, "certificates/verified.html", {
@@ -48,7 +48,7 @@ def success (request, fellow):
         "cnic": cnic,
         "id": ID,
         "message": f"It is verified that {name} (CNIC # {cnic}) has successfully completed NFDP training held during {program}.",
-        "email": f"Please e-mail <nahe.support@hec.gov.pk> to request the transcript. The certificate ID is {ID}"
+        "email": f"Please e-mail <nahe.support@hec.gov.pk> to request the transcript. The certificate ID is: {ID}."
     })
 
 def fail (request, cnic): 
