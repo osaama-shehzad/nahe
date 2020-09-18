@@ -157,7 +157,7 @@ def sendrequest (request, id):
             Cert. ID: {f_cert_id}
             CNIC: {id}\n
             THIS IS AN AUTO-GENERATED EMAIL. DO NOT REPLY."""
-            emails = ['nahe.support@hec.gov.pk', email]
+            emails = ['osaama@hec.gov.pk', email]
             try:
                 for i in emails:
                     send_mail('Transcript Request for NFDP Fellow',
