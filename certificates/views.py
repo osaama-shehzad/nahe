@@ -158,16 +158,16 @@ def sendrequest (request, id):
             CNIC: {id}\n
             THIS IS AN AUTO-GENERATED EMAIL. DO NOT REPLY."""
             emails = ['osaama@hec.gov.pk', email]
-            try:
-                for i in emails:
-                    send_mail('Transcript Request for NFDP Fellow',
-                    message,
-                    None,
-                    [i],
-                    fail_silently=False)
-                return render (request, "certificates/email_sent.html")
-            except: 
-                return render (request, "certificates/email_fail.html")
+            # try:
+            for i in emails:
+                send_mail('Transcript Request for NFDP Fellow',
+                message,
+                None,
+                [i],
+                fail_silently=False)
+            return render (request, "certificates/email_sent.html")
+            # except: 
+            #     return render (request, "certificates/email_fail.html")
         else: 
             return render(request, "certificates/transcripts.html", {
                 "form": form,
