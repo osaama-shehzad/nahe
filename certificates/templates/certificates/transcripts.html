@@ -1,0 +1,28 @@
+{% extends "certificates/layout.html" %}
+
+{% block title %}
+    Request Transcript
+{% endblock %}
+
+{% block body %}
+
+    <div class="alert alert-info" role="alert" style="font-size: 17.5px">
+        Please fill the form completely in order to request the transcript. If you are unable
+        to fill the form, please email 'nahe.support@hec.gov.pk' to request the transcript.
+        Make sure to please provide the fellow's name, CNIC, certificate ID along with your name,
+        organization, employment title, and email address. 
+    </div>
+    <center>
+    <div class="col-6" style= "margin-top: -17px; background-color: bisque;">
+        <div class="form-group ">
+            <form action="{% url 'certificates:sendrequest' cnic %}" method="post">
+                {% csrf_token %}
+                {{ form.as_table }}<br>
+                <button class="btn btn-secondary" type="submit">Submit</button>
+            </form>
+
+        </div>
+    </div>
+    </center>
+
+{% endblock %}

@@ -1,4 +1,4 @@
-    from certificates.models import Fellow
+from certificates.models import Fellow
 
 import pandas as pd 
 

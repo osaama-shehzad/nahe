@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 SECRET_KEY = '70-=4h!m*_y+mp!w)x1&k0qqu0icb*ik-))whg12&5^615+s-c'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['nahe-osaama.isb.hec.gov.pk']
 
@@ -141,3 +141,9 @@ STATICFILES_DIRS = [
 
 django_heroku.settings(locals())
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'nahe.hec@gmail.com'
+EMAIL_HOST_PASSWORD = 'nahe1234'
+EMAIL_PORT = 587
