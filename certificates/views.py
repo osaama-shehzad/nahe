@@ -60,7 +60,6 @@ def fail (request, cnic):
         "message": f"Record not found! No NFDP graduate holds the CNIC # {cnic}. Please try again with a different CNIC number."
     })
 
-import os
 def download (request, date, name, id):
     x = date.split(" ")
     BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
