@@ -192,7 +192,7 @@ CACHES = {
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'nahe.hec@gmail.comx'
+EMAIL_HOST_USER = 'nahe.hec@gmail.com'
 EMAIL_HOST_PASSWORD = SECRET_KEY
 
 
