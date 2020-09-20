@@ -23,9 +23,10 @@ BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 SECRET_KEY = '70-=4h!m*_y+mp!w)x1&k0qqu0icb*ik-))whg12&5^615+s-c'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['nahe-osaama.isb.hec.gov.pk']
+ALLOWED_HOSTS = ['nahe-osaama.isb.hec.gov.pk',
+'nahe.herokuapp.com']
 
 
 # Application definition
@@ -176,7 +177,7 @@ CACHES = {
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'nahe.hec@gmail.com'
+EMAIL_HOST_USER = 'nahe.hec@gmail.comx'
 EMAIL_HOST_PASSWORD = SECRET_KEY
 
 
