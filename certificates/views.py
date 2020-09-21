@@ -44,13 +44,13 @@ def success (request, fellow):
     program = fellow.program
     cnic = fellow.CNIC
     ID = fellow.ID 
+    graduation = fellow.graduation
     cnic_x = fellow.CNIC[:5]+ "-" + fellow.CNIC[5:12] + "-" + fellow.CNIC [-1]
     if "Dr." not in name: name = "Dr. " + name
     return render(request, "certificates/verified.html", {
-        "name": name, 
-        "program": program,
+        "graduation": graduation,
+        "fellow": fellow, 
         "cnic": cnic,
-        "id": ID,
         "message": f"It is verified that {name} (CNIC # {cnic_x}) has successfully completed NFDP training held during {program}.",
         "email": f"To request the transcript or to verify the authenticity of the certificate, please e-mail <nahe.support@hec.gov.pk>. The certificate ID is: {ID}."
     })
@@ -60,11 +60,15 @@ def fail (request, cnic):
         "message": f"Record not found! No NFDP graduate holds the CNIC # {cnic}. Please try again with a different CNIC number."
     })
 
-def download (request, date, name, id):
-    x = date.split(" ")
+def download (request, date, name, graduation, id):
+    date = date.split(" ")
     BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    path = os.path.join(BASE_DIR, "certificates/static/certificates/aX201a0.jpg")
-    date = f"29-{x[3]}-{x[4][:2]}" 
+    if graduation == "Completed Successfully":
+        path = os.path.join(BASE_DIR, "certificates/static/certificates/aX201a0.jpg")
+    else:
+        path = os.path.join(BASE_DIR, "certificates/static/certificates/xv135gV.jpg") 
+
+    date = f"29-{date[3]}-{date[4][:2]}" 
     image = Image.open(path)
     draw = ImageDraw.Draw(image)
     path = os.path.join(BASE_DIR, "certificates/static/certificates/ITCEDSCR.TTF")
@@ -79,7 +83,7 @@ def download (request, date, name, id):
     draw.text((x,y), name, align='center', font=font_type, fill=(0,102,0)) 
     font_type_3 = ImageFont.truetype(path, 30)
     msg = f"Cert. ID: {id}"
-    draw.text (xy=(330, 1230), text=date, fill=(0,102,0), font=font_type_2)
+    draw.text (xy=(340, 1230), text=date, fill=(0,102,0), font=font_type_2)
     draw.text (xy=(1750, 1565), text=msg, fill=(0,0,0), font=font_type_3)
     path = os.path.join(BASE_DIR, f"certificates/static/certificates/{name}.pdf")
     image.save(path, "PDF", resolution=100.0)

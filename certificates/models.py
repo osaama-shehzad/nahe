@@ -8,5 +8,6 @@ class Fellow(models.Model):
         validators=[int_list_validator(sep=''),MinLengthValidator(13),])
     program = models.CharField(max_length=30)
     ID =  models.CharField(max_length=5)
+    graduation = models.CharField(max_length=25)
     def __str__(self):
         return f"{self.name}"
