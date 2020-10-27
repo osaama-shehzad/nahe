@@ -16,5 +16,8 @@ class Fellow(models.Model):
 class FellowAdmin (admin.ModelAdmin):
     list_display = ('Name', 'CNIC', 'Program', 'ID', 'Graduation')
     search_fields = ('Name', 'CNIC', 'Program', 'ID', 'Graduation',)
+    filter_horizontal = ()
+    list_filter = ()
+    fieldsets = ()
 
 
