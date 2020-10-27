@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib import admin
 from django.core.validators import MinLengthValidator, int_list_validator
 # Create your models here.
 
@@ -15,4 +16,3 @@ class Fellow(models.Model):
 class FellowAdmin (admin.ModelAdmin):
     search_fields = ('Name', 'CNIC', 'Program', 'ID', 'Graduation', )
 
-admin.site.register (Fellow, FellowAdmin)
