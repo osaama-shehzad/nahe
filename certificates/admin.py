@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Fellow
+from .models import Fellow, FellowAdmin
 
 # Register your models here.
 #register
