@@ -4,4 +4,4 @@ from .models import Fellow
 
 # Register your models here.
 
-admin.site.register(Fellow)
+admin.site.register (Fellow, FellowAdmin)
