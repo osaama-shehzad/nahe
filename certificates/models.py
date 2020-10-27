@@ -14,5 +14,7 @@ class Fellow(models.Model):
         return f"{self.name}"
 
 class FellowAdmin (admin.ModelAdmin):
-    search_fields = ('Name', 'CNIC', 'Program', 'ID', 'Graduation', )
+    list_display = ('Name', 'CNIC', 'Program', 'ID', 'Graduation')
+    search_fields = ('Name', 'CNIC', 'Program', 'ID', 'Graduation',)
+
 
