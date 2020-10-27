@@ -11,3 +11,8 @@ class Fellow(models.Model):
     graduation = models.CharField(max_length=25)
     def __str__(self):
         return f"{self.name}"
+
+class FellowAdmin (admin.ModelAdmin):
+    search_fields = ('Name', 'CNIC', 'Program', 'ID', 'Graduation', )
+
+admin.site.register (Fellow, FellowAdmin)
