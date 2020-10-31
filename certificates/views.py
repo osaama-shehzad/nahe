@@ -6,9 +6,9 @@ from .models import Fellow
 from PIL import Image, ImageDraw, ImageFont
 from django.core.mail import send_mail
 from django.core.validators import EmailValidator
-
-
-import os
+from django.http import JsonResponse
+from django.core import serializers
+import os, json
 # Create your views here.
 
 class SearchForm(forms.Form):
@@ -16,28 +16,32 @@ class SearchForm(forms.Form):
     widget=forms.TextInput(attrs={'placeholder': 'CNIC (without dashes)',
     'maxlength': '13', 
     'minlength': '13',
-    "class": "form-control"}))
-    
-def index (request): 
-    if request.method == "POST":
-        form = SearchForm(request.POST)
-        if form.is_valid():
-            cnic = form.cleaned_data["cnic"]
-            if Fellow.objects.filter(CNIC=cnic):
-                fellow = Fellow.objects.get(CNIC=cnic)
-                return success(request, fellow)
-            else:
-                return fail(request, cnic) 
+    "class": "form-control",
+    'id': "cnicfield"}))
 
-        else: 
-            return render(request, "certificates/index.html", {
-                "form": form
-            })
-    else:
-        search = SearchForm()
-        return render (request, "certificates/index.html", {
-            "form": search
-        })
+def index (request):
+    search = SearchForm()
+    form2 = TranscriptForm()
+    return render (request, "certificates/index.html", {
+            "form": search,
+            'form2': form2
+        }) 
+
+def search (request):
+    if request.method != "POST":
+        return JsonResponse({"error": "POST request required."}, status=400)
+    
+    data = json.loads(request.body)
+    cnic = data.get("cnic", "")
+    if Fellow.objects.filter(CNIC=cnic):
+        fellow = Fellow.objects.filter(CNIC=cnic)
+        fellow = serializers.serialize('json', fellow)
+        return JsonResponse(fellow, status=201, safe=False)
+    else: 
+        return JsonResponse({
+                "error": f"Fellow with CNIC ({cnic}) does not exist."
+            }, status=400)
+    
     
 def success (request, fellow): 
     name = fellow.name.title()
@@ -55,12 +59,10 @@ def success (request, fellow):
         "email": f"To request the transcript or to verify the authenticity of the certificate, please e-mail <nahe.support@hec.gov.pk>. The certificate ID is: {ID}."
     })
 
-def fail (request, cnic): 
-    return render(request, "certificates/fail.html", {
-        "message": f"Record not found! No NFDP graduate holds the CNIC # {cnic}. Please try again with a different CNIC number."
-    })
 
 def download (request, date, name, graduation, id):
+    if "Dr." not in name: 
+        name = f"Dr. {name}"
     date = date.split(" ")
     BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     if graduation == "Completed Successfully":
@@ -98,89 +100,74 @@ class TranscriptForm(forms.Form):
     widget=forms.TextInput(attrs={
         'placeholder': 'full name',
         'max_length': '64',
-        "class": "form-control"
+        "class": "form-control",
+        "id": "t-name"
         }))
     
     organization = forms.CharField(label="Organization", 
     widget=forms.TextInput(attrs={
         'placeholder': 'name of organization/institute',
         'max_length': '64',
-        "class": "form-control"}))
+        "class": "form-control",
+        "id": "organization"}))
     title = forms.CharField(label="Employment Title", 
     widget=forms.TextInput(attrs={
         'placeholder': 'position title',
         'max_length': '64',
+        "id": 'title',
         "class": "form-control"}))
     message = forms.CharField(label="Message", 
     widget=forms.Textarea(attrs={
         'placeholder': 'Please provide a short description about why you want to request the transcript.',
-        "class": "form-control"}
+        "class": "form-control",
+        "id": 'message'}
     ))
     email = forms.CharField(validators=[emailvalidator], widget=forms.TextInput(attrs={
         'placeholder': 'valid official email address',
-        "class": "form-control"}
+        "class": "form-control",
+        "id": 'email'}
     ))
 
 
-def transcript (request, cnic):
-    form = TranscriptForm()
-    return render (request, "certificates/transcripts.html", {
-        "form": form,
-        "cnic": cnic
-    })
+def sendrequest (request):
+    if request.method != "POST":
+        return JsonResponse({"error": "POST request required."}, status=400)
+    
+    data = json.loads(request.body)
+    cnic = data.get("cnic", "")
+    name = data.get("name", "")
+    organization = data.get("org", "")
+    email = data.get("email", "")
+    title = data.get("title", "")
+    msg = data.get("msg", "")
 
 
-
-def sendrequest (request, id): 
-    # return HttpResponse("works")
-    if request.method == "POST": 
-        form = TranscriptForm(request.POST)
-        if form.is_valid():
-            #fellow details
-            fellow = Fellow.objects.get(CNIC=id)
-            f_name = fellow.name.title()
-            f_program = fellow.program
-            f_cert_id = fellow.ID
-            #requester details
-            name = form.cleaned_data["name"]
-            email = form.cleaned_data["email"]
-            organization = form.cleaned_data["organization"]
-            title = form.cleaned_data["title"]
-            message = form.cleaned_data["message"]
-
-            message = f"""A requested for transcript has been generated by:\n\n
+    if Fellow.objects.filter(CNIC=cnic):
+        fellow = Fellow.objects.get(CNIC=cnic)
+        message = f"""A requested for transcript has been generated by:\n\n
             Name: {name.title()}
             Organization: {organization.title()}
             Title: {title.title()}
             Email: {email}
-            Message: {message}\n
+            Message: \n{msg}\n
             This request has been generated for the following NFDP fellow:\n
-            Fellow: {f_name}
-            Program: {f_program}
-            Cert. ID: {f_cert_id}
-            CNIC: {id}\n
+            Fellow: {fellow.name}
+            Program: {fellow.program}
+            Cert. ID: {fellow.ID}
+            CNIC: {cnic}\n
             THIS IS AN AUTO-GENERATED EMAIL. DO NOT REPLY."""
-            emails = ['nahe.support@hec.gov.pk', email]
-            try:
-                for i in emails:
-                    send_mail('Transcript Request for NFDP Fellow',
-                    message,
-                    None,
-                    [i],
-                    fail_silently=False)
-                return render (request, "certificates/email_sent.html")
-            except: 
-                return render (request, "certificates/email_fail.html")
-        else: 
-            return render(request, "certificates/transcripts.html", {
-                "form": form,
-                "cnic": id
-            })
-    else:
-        form = TranscriptForm()
-        return render(request, "certificates/transcripts.html", {
-                "form": form,
-                "cnic": id
-            })
+        emails = ['nahe.support@hec.gov.pk', email]
+        try:
+            for i in emails:
+                send_mail('Transcript Request for NFDP Fellow',
+                message,
+                None,
+                [i],
+                fail_silently=False)
+            return JsonResponse({"status": 'success'}, status=201, safe=False)
+        except: 
+            return JsonResponse({"status": 'fail'}, status=400) 
+   
+
 
 

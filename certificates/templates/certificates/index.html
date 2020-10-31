@@ -1,23 +1,97 @@
 {% extends "certificates/layout.html" %}
-
+{% load static %}
 {% block title %}
     Verify Certificates
 {% endblock %}
 
 {% block body %}
-
-    <div class="alert alert-info" role="alert" style="font-size: 17.5px">
-        Please enter the 13-digit Computerized National Identity Card (CNIC) number to 
-        verify the successful completion of the National Faculty Development Program (NFDP)
-        by the fellow. This online verification system serves as an electronic attestation by the
-        National Academy of Higher Education (NAHE). 
+    <div id="transcripts">
+        <div class="alert alert-info" role="alert" style="font-size: 17.5px">
+            Please fill the form completely in order to request the transcript. If you are unable
+            to fill the form, please email 'nahe.support@hec.gov.pk' to request the transcript.
+            Make sure to please provide the fellow's name, CNIC, certificate ID along with your name,
+            organization, employment title, and email address. 
+        </div>
+        <div style= "font-size: 20px; margin-top: -30px;" class="alert alert-danger" role="alert">
+            Transcript requests will ONLY be processed for institutions and/or organizations.
+            Any request made by the NFDP participant and/or IPFP fellow will NOT be facilitated.
+        </div><br>
+        <center>
+        <div class="col-6" style= "margin-top: -17px; background-color: bisque;">
+            <div class="form-group ">
+                <form id="form2">
+                    {% csrf_token %}
+                    {{ form2.as_table }}<br>
+                    <input class="btn btn-primary" type="submit"/>
+                </form>
+    
+            </div>
+        </div>
+        </center>
     </div>
-    <div class="form-group">
-        <form action="{% url 'certificates:index' %}" method="post">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button class="btn btn-secondary" type="submit">Submit</button>
-        </form>
+    <div id="verified">
+        <div class="row">
+            <div class="col-10">
+              <div id="note" class="row alert alert-success" role="alert"></div>
+              <div style= "background-color: beige;" class="row">
+                <div class="col-2">
+                  <div class="list-group" id="list-tab" role="tablist">
+                    <a class="list-group-item list-group-item-action active" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home">Name</a>
+                    <a class="list-group-item list-group-item-action" id="list-profile-list" data-toggle="list" href="#list-profile" role="tab" aria-controls="profile">Certificate ID</a>
+                    <a class="list-group-item list-group-item-action" id="list-messages-list" data-toggle="list" href="#list-messages" role="tab" aria-controls="messages">NFDP Program</a>
+                  </div>
+                </div>
+                <div class="col-5">
+                  <div class="tab-content" id="nav-tabContent">
+                    <div style= "font-size: 25px" class="tab-pane fade show active" id="list-home" role="tabpanel" aria-labelledby="list-home-list"></div>
+                    <div style= "font-size: 25px" class="tab-pane fade" id="list-profile" role="tabpanel" aria-labelledby="list-profile-list"></div>
+                    <div style= "font-size: 25px" class="tab-pane fade" id="list-messages" role="tabpanel" aria-labelledby="list-messages-list"></div>
+                
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-2" style="background-color: beige; margin: auto;">
+              <div>
+                  <ul class="nav nav-pills nav-fill">
+                    <br><br>
+                    <li class="nav-item">
+                        <a style="color: white;" id="search-again" class="btn btn-primary">Search Again</a>
+                    </li><br><br>
+                    <li class="nav-item">
+                        <a style="color: white;" id="download" class="btn btn-primary" download>Download Certificate</a>
+                    </li><br><br>
+                    <li class="nav-item">
+                      <a style="color: white;" id="transcript" class="btn btn-primary">Request Transcript</a>
+                    </li> 
+                  </ul>
+              </div>
+            </div>
+        </div>
     </div>
 
+    <div id="fail" style= "font-size: 20px" class="alert alert-danger" role="alert"></div>
+
+    <div id="home">
+        <div class="alert alert-info" role="alert" style="font-size: 17.5px">
+            Please enter the 13-digit Computerized National Identity Card (CNIC) number to 
+            verify the successful completion of the National Faculty Development Program (NFDP)
+            by the fellow. This online verification system serves as an electronic attestation by the
+            National Academy of Higher Education (NAHE). 
+        </div>
+        <div class="form-group">
+            <!-- action="{% url 'certificates:index' %}" -->
+            <form id="search">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <input type="submit" class="btn btn-primary"/>
+            </form>
+        </div>
+
+    </div>
+
+{% endblock %}
+
+{% block script %}
+<script src="{% static 'certificates/views.js' %}"></script>
 {% endblock %}

@@ -5,8 +5,7 @@ from . import views
 app_name = "certificates"
 urlpatterns = [
     path("", views.index, name="index"), 
+    path("search", views.search, name="search"),
     path("download/<str:date>/<str:name>/<str:graduation>/<str:id>", views.download, name="download"),
-    path("sendrequest/<int:id>", views.sendrequest, name="sendrequest"),
-    path("transcript/<int:cnic>", views.transcript, name="transcript")
-
+    path("sendrequest", views.sendrequest, name="sendrequest")
 ]
